@@ -1,0 +1,60 @@
+*{
+    box-sizing: border-box;
+  }
+  .hidden {
+    display: none;
+  }
+  body {
+    background: #1F8A70;
+  }
+  .game {
+    width: 300px;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  .msg {
+    background: #004358;
+    height: 300px;
+    width: 300px;
+    border-radius: 15px;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  h1 {
+    text-align: center;
+    color: white;
+  }
+  
+  .box {
+    font-family: cursive;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    float: left;
+    background: #004358;
+    color: #FD7400;
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid #BEDB39;
+    border-radius: 10px;
+  }
+  .chooseBox{
+    font-family: cursive;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    margin: 25px;
+    line-height: 100px;
+    float: left;
+    background: #004358;
+    color: #FD7400;
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid #BEDB39;
+    border-radius: 10px;
+  }

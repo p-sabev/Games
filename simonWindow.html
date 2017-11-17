@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="simon.css">
+    <title>Simon</title>
+</head>
+<body>
+    <div id='container'>
+    <div onclick="check('red')" id='red' class='slice'></div>
+    <div onclick="check('blue')" id='blue' class='slice'></div>
+    <div onclick="check('yellow')" id='yellow' class='slice'></div>
+    <div onclick="check('green')" id='green' class='slice'></div>
+    </div>
+    <div class='panel'>
+        <h1 class='title'>Simon</h1>
+        <div class='strict'></div>
+        <div class='left'>
+            <h6 class='dash'>--</h6>
+        </div>
+        <div onclick="play()" class='button middle'></div>
+        <div onclick="strictSwitch()" class='button right'></div>
+        <h6 class='text count'>COUNT</h6>
+        <h6 class='text start'>START </h6>
+        <h6 class='text stri'>STRICT</h6>
+        <h6 class='text1 off'>OFF</h6>
+        <h6 class='text on'>ON</h6>
+        <div onclick="game()" class='last big'>
+            <div class='last small'></div>
+        </div>
+    <audio data-audio="red" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"></audio>
+    <audio data-audio="blue" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"></audio>
+    <audio data-audio="yellow" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"></audio>
+    <audio data-audio="green" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"></audio>
+
+<script>
+let strict = false,
+    gameState = false,
+    colors = ['red', 'blue', 'green', 'yellow'],
+    seq = [],
+    moves = 0,
+    playerMoves = 0;
+
+function color(arg){
+  if(!arg) return;
+  
+  const audio = document.querySelector(`audio[data-audio="${arg}"]`);
+  audio.play();
+  
+  const el = document.querySelector(`#${arg}`);
+  el.classList.add('playing');
+  setTimeout(function(){
+    el.classList.remove('playing');
+  }, 200);
+}
+
+function strictSwitch(){
+  let light = document.querySelector('.strict');
+  
+  if(strict === true){
+    strict = false;
+    light.classList.remove('active');
+  }else if(strict === false && gameState){
+    strict = true;
+    light.classList.add('active');
+  }
+}
+
+function game(){  
+  if(gameState === false){
+    gameState = true;
+    
+    document.querySelector('.small').classList.add('turnon');
+    document.querySelector('.dash').classList.add('turn');
+  }else if(gameState === true){
+    gameState = false;
+    
+    moves = 0;
+    document.querySelector('.dash').innerHTML = '--';
+    
+    strict = false;
+    document.querySelector('.strict').classList.remove('active'); 
+    
+    document.querySelector('.small').classList.remove('turnon');
+    document.querySelector('.dash').classList.remove('turn');
+  }
+}
+
+function count(){ 
+  if(gameState){
+    moves++;
+    document.querySelector('.dash').innerHTML = moves;
+  }
+}
+
+function play(){
+  if(!gameState) return;
+  
+  count();
+  seq.push(colors[Math.floor(Math.random() * 4)]);
+  showSeq();
+}
+
+function showSeq(){
+  var i = 0;
+  if (i <= seq.length) {
+    var active = setInterval(function() {
+      color(seq[i]);
+      i++;
+    }, (i + 1)*900);
+  } else {
+    clearInterval(active);
+  }
+}
+
+function check(arg){
+  if(!gameState) return;
+  
+  if(arg === seq[playerMoves]){
+    color(arg);
+    playerMoves++;
+  }else if(strict){
+    document.querySelector('.dash').innerHTML = '!!';
+    restart();
+    play();
+  }else{
+    document.querySelector('.dash').innerHTML = '!!';
+    showSeq();
+    playerMoves = 0;
+  }
+  
+  if(playerMoves === moves){
+    play();
+    playerMoves = 0;
+  }
+  
+  if(moves === 20){
+    alert('Congratulations you are great!!!!!');
+    restart();
+  } 
+}
+
+function restart(){
+  playerMoves = 0;
+  moves = 0;
+  document.querySelector('.dash').innerHTML = moves;
+  seq = [];
+}
+</script>
+</body>
+</html>

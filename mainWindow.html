@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">    
+    <title>Games</title>
+    <style>
+        .card-content {
+            height: 150px;
+        }
+        .card-action a{
+            color: #BD1832;
+            font-weight: bold;
+        }
+        body {
+            background: #24292E;
+        }
+        nav {
+            background: #BD1832;
+        }
+        .card-title {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a class="brand-logo center" style="font-size:5vw;">Hi, <span id="username"></span>!</a>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col s12 m6 l3">
+            <div class="card">
+                <div class="card-image">
+                    <img src="images/game_1.png">
+                    <span class="card-title">Tic-Tac-Toe</span>
+                </div>
+                <div class="card-content">
+                    <p>Tic-tac-toe is a paper-and-pencil game for two players, X and O, who take turns marking the spaces in a 3×3 grid.</p>
+                </div>
+                <div class="card-action">
+                    <a href="#" onclick="openWindow('Tic-Tac')">Play</a>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6 l3">
+            <div class="card">
+                <div class="card-image">
+                    <img src="images/game_2.png">
+                    <span class="card-title">Simon</span>
+                </div>
+                <div class="card-content">
+                    <p>Device creates a series of tones and lights and requires you to repeat the series. If you succeed, the series becomes progressively longer and more complex.</p>
+                </div>
+                <div class="card-action">
+                    <a href="#" onclick="openWindow('Simon')">Play</a>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6 l3">
+            <div class="card">
+                <div class="card-image">
+                    <img src="images/game_3.png">
+                    <span class="card-title">Snake</span>
+                </div>
+                <div class="card-content">
+                    <p>Eat the apples in this classic retro game. But don't eat your own tail! How long can you survive?</p>
+                </div>
+                <div class="card-action">
+                    <a href="#" onclick="openWindow('Snake')">Play</a>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6 l3">
+            <div class="card">
+                <div class="card-image">
+                    <img src="images/game_4.png">
+                    <span class="card-title">Flappy Bird</span>
+                </div>
+                <div class="card-content">
+                    <p>Flappy Bird is the most popular game on the Internet these days. It is a simple one-button game in which you have to navigate our beloved bird past the pipes.</p>
+                </div>
+                <div class="card-action">
+                    <a href="#" onclick="openWindow('Flappy')">Play</a>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6 l3">
+            <div class="card">
+                <div class="card-image">
+                    <img src="images/game_5.png">
+                    <span class="card-title">2048</span>
+                </div>
+                <div class="card-content">
+                    <p>Use your arrow keys to move the tiles. When two tiles with the same number touch, they merge into one!</p>
+                </div>
+                <div class="card-action">
+                    <a href="#" onclick="openWindow('2048')">Play</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const fullname = require('fullname');
+        fullname().then(name => { document.querySelector('#username').innerHTML = name; });
+
+        const electron = require('electron');
+        const {ipcRenderer} = electron;
+
+        function openWindow(e){
+            ipcRenderer.send('window:open', e);
+            console.log(e);
+        }
+
+    </script>
+</body>
+</html>

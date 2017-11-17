@@ -1,0 +1,143 @@
+  *{
+    box-sizing: border-box;
+  }
+  .hidden {
+    display: none;
+  }
+  body {
+    background: #1F8A70;
+  }
+  .heading:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  
+  h1.title {
+    font-size: 80px;
+    font-weight: bold;
+    margin: 0;
+    display: block;
+    float: left;
+    color: #CCC0B3;
+  }
+  .scoreContainer {
+    position: relative;
+    float: right;
+    background: #bbada0;
+    padding: 25px 25px;
+    font-size: 25px;
+    height: 70px;
+    line-height: 47px;
+    font-weight: bold;
+    border-radius: 3px;
+    color: white;
+    margin-top: 8px;
+  }
+  .scoreContainer:after {
+    position: absolute;
+    width: 100%;
+    top: 10px;
+    left: 0;
+    content: "Score";
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 13px;
+    text-align: center;
+    color: #eee4da;
+  }  
+  .game {
+    width: 412px;
+    position: fixed;
+    left: 50%;
+    top: 100px;
+    transform: translate(-50%, 0);
+    border: 6px solid #BBADA0;
+    background: #CCC0B3;
+    color: white;
+  }
+  h1 {
+    text-align: center;
+    color: white;
+  } 
+  #box {
+    font-family: cursive;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    float: left;
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    border: 6px solid #BBADA0;
+}
+.two {
+    color: #786F66;
+    background: #ECDFC7;
+}
+.four {
+    color: #786F66;
+    background: #ECDFC7;
+}
+.eight {
+    color: #F9F1EB;
+    background: #F2B179;
+}
+.sixt {
+    color: #F9F1EB;
+    background: #F59563;
+}
+.thirty {
+    color: #F9F1EB;
+    background: #F67C5F;
+}
+.sixty {
+    color: #F9F1EB;
+    background: #F65E3C;
+}
+.hundred {
+    color: #F9F1EB;
+    background: #ECCE72;
+}
+.twoHundred {
+    color: #F9F1EB;
+    background: #ECCB61;
+}
+.fiveHundred {
+    color: #F9F1EB;
+    background: #ECC750;
+}
+.tenHundred {
+    color: #F9F1EB;
+    background: #EDC440;
+}
+.twentyHundred {
+    color: #F9F1EB;
+    background: #5EDA92;
+}
+.fourtyHundred {
+    color: #F9F1EB;
+    background: #24BA63;
+}
+.eightyHundred {
+    color: #F9F1EB;
+    background: #238C51;
+}
+.sixteenHundred {
+    color: #F9F1EB;
+    background: #B71C64;
+}
+.thirtyHundred {
+    color: #F9F1EB;
+    background: #3D0075;
+}
+.sixtyHundred {
+    color: #F9F1EB;
+    background: #353631;
+}
+.hundredHundred {
+    color: #F9F1EB;
+    background: black;
+}
+
+

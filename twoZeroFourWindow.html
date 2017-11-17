@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="twoZero.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="heading">
+        <h1 class="title">2048</h1>
+        <div class="scoreContainer">0</div>
+        <!-- <div class="undo-container" onclick="undo()">Undo</div> -->
+    </div>
+    <div class="game">
+        <div data-key="00" id="box"></div>
+        <div data-key="01" id="box"></div>
+        <div data-key="02" id="box"></div>
+        <div data-key="03" id="box"></div>
+        <div data-key="10" id="box"></div>
+        <div data-key="11" id="box"></div>
+        <div data-key="12" id="box"></div>
+        <div data-key="13" id="box"></div>
+        <div data-key="20" id="box"></div>
+        <div data-key="21" id="box"></div>
+        <div data-key="22" id="box"></div>
+        <div data-key="23" id="box"></div>
+        <div data-key="30" id="box"></div>
+        <div data-key="31" id="box"></div>
+        <div data-key="32" id="box"></div>
+        <div data-key="33" id="box"></div>  
+    </div>
+
+<script>
+    const boxes = document.querySelectorAll('#box'),
+          game = document.querySelector('.game'),
+          scoreBox = document.querySelector('.scoreContainer');
+    let nums = [
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0]
+    ],
+    copy = [],
+    score = 0;
+
+    //on load we attach event for the control keys 
+    // and also update with the starting matrices
+    window.onload = function() {
+        document.addEventListener("keydown",keyPush);
+        addRandom();
+        addRandom();
+        addRandom();
+        update();
+    };
+
+    //Show updated matrices on the screen 
+    function update(){
+        let z = 0;
+        for(let i = 0; i <= 3; i++){
+            for(let y = 0; y <= 3; y++){
+                boxes[z].innerHTML = ( nums[i][y] === 0 ? '' : nums[i][y]);
+                z++;
+            }
+        }
+        updateCSS();
+        updateScore();
+        return;
+    }
+
+    // Updates the score result
+    function updateScore(){
+        scoreBox.innerHTML = score;
+        return;
+    }
+
+    //Arrange the numbers in array in left
+    function arrange(){
+        let tmpArr = [];       
+
+        for(let y = 0; y <= 3; y++){
+            for(let i = 0; i <= 3; i++){
+                (nums[y][i] !== 0) && tmpArr.push(nums[y][i]);
+            }
+            for(let i = 0; i <= 3; i++){
+                nums[y][i] = tmpArr[i] || 0;
+            }
+            tmpArr = [];
+        }
+    }
+
+    //To left is the main function for summing the matrices
+    //so other functions have to rotate the matrices and use toLeft summing
+    function toLeft(){
+        arrange();
+        // Sum the equal numbers
+        for(let z = 0; z <= 3; z++){
+            if(nums[z][0] === nums[z][1]){
+                if((nums[z][2] === nums[z][3]) && (nums[z][2] !== 0)){
+                    score += nums[z][0] * 2 * 2;
+                    nums[z][0] += nums[z][1];
+                    nums[z][1] = nums[z][0];
+                    nums[z][2] = 0;
+                    nums[z][3] = 0;
+                }else{
+                    score += nums[z][0] * 2;
+                    nums[z][0] += nums[z][1];
+                    nums[z][1] = nums[z][2];
+                    nums[z][2] = nums[z][3];
+                    nums[z][3] = 0;
+                }   
+            }else if(nums[z][1] === nums[z][2]){
+                score += nums[z][1] * 2
+                nums[z][1] += nums[z][2];
+                nums[z][2] = nums[z][3];
+                nums[z][3] = 0;
+            }else if(nums[z][2] === nums[z][3]){
+                score += nums[z][2] * 2;
+                nums[z][2] += nums[z][3];
+                nums[z][3] = 0;
+            }
+        }
+        return;
+    }
+    function toUp(){
+        rotate90(nums);
+        rotate90(nums);
+        rotate90(nums);
+        toLeft();
+        rotate90(nums);
+        return;
+    }
+    function toRight(){
+        nums.reverse().forEach(item => item.reverse());
+        toLeft();
+        nums.reverse().forEach(item => item.reverse());
+        return;
+    }
+    function toDown(){
+        rotate90(nums);
+        toLeft();
+        rotate90(nums);
+        rotate90(nums);
+        rotate90(nums);
+        return;
+    }
+
+    function updateCSS(){
+        for(let i = 0; i <= boxes.length; i++){
+            if(boxes[i] !== undefined){
+                //console.log(boxes[i].innerHTML);
+                switch(boxes[i].innerHTML) {
+                    case '':
+                        boxes[i].className = "";
+                        break;
+                    case '2':
+                        boxes[i].className = "two";
+                        break;
+                    case '4':
+                        boxes[i].className = "four";
+                        break;
+                    case '8':
+                        boxes[i].className = "eight";
+                        break;
+                    case '16':
+                        boxes[i].className = "sixt";
+                        break;
+                    case '32':
+                        boxes[i].className = "thirty";
+                        break;
+                    case '64':
+                        boxes[i].className = "sixty";
+                        break;
+                    case '128':
+                        boxes[i].className = "hundred";
+                        break;
+                    case '256':
+                        boxes[i].className = "twoHundred";
+                        break;
+                    case '512':
+                        boxes[i].className = "fiveHundred";
+                        break;
+                    case '1024':
+                        boxes[i].className = "tenHundred";
+                        break;
+                    case '2048':
+                        boxes[i].className = "twentyHundred";
+                        break;
+                    case '4096':
+                        boxes[i].className = "fourtyHundred";
+                        break;
+                    case '8192':
+                        boxes[i].className = "eightyHundred";
+                        break;
+                    case '16384':
+                        boxes[i].className = "sixteenHundred";
+                        break;
+                    case '32768':
+                        boxes[i].className = "thirtyHundred";
+                        break;
+                    case '65536':
+                        boxes[i].className = "sixtyHundred";
+                        break;
+                    case '131072':
+                        boxes[i].className = "hundredHundred";
+                        break;
+                }
+            }
+        }
+    }
+
+    // Adds random number (2 || 4) on empty place
+    function addRandom(){
+        let randNum = (Math.floor(Math.random() * 2) === 0) ? 2 : 4,
+        elX = Math.floor(Math.random() * 4),
+        elY = Math.floor(Math.random() * 4);
+        (nums[elX][elY] === 0) ? (nums[elX][elY] = randNum) : addRandom();
+        return;
+    }
+
+    // Undo one move back
+    // function undo(){
+    //     // console.log(copy);
+    //     // nums = copy.slice(0);
+    //     update();
+    //     return;
+    // }
+
+    //Compare the two matrices, if they are equal returns true
+    function compareMatrices(){
+        for(let i = 0; i <=3; i++){
+            for(let y = 0; y <=3; y++){
+                if(nums[i][y] !== copy[i][y]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    function keyPush(evt) {
+        switch(evt.keyCode) {
+            case 37:
+                // copy = nums.slice(0);
+                toLeft();
+                addRandom();
+                update();
+                break;
+            case 38:
+                // copy = nums.slice(0);
+                toUp();
+                addRandom();
+                update();
+                break;
+            case 39:
+                // copy = nums.slice(0);
+                toRight();
+                addRandom();
+                update();
+                break;
+            case 40:
+                // copy = nums.slice(0);
+                toDown();
+                addRandom();
+                update();
+                break;
+        }
+        return;
+    }
+
+    function rotate90(matrix) {
+        var n = matrix.length;
+        for (var i = 0; i < n / 2; i++) {
+            for (var j = 0; j < Math.ceil(n/2); j++) {
+                var temp = matrix[i][j];
+                matrix[i][j] = matrix[n-1-j][i];
+                matrix[n-1-j][i] = matrix[n-1-i][n-1-j];
+                matrix[n-1-i][n-1-j] = matrix[j][n-1-i];
+                matrix[j][n-1-i] = temp;
+            }
+        }
+        return matrix;
+    }
+</script>
+</body>
+</html>

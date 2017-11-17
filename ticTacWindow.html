@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="ticTac.css">
+    <title>Tic-Tac-Toe</title>
+</head>
+<body>
+    <div class="msg">
+        <h1>Choose your weapon</h1>
+        <div class="chooseBox" onclick="setWeapon('X')">X</div>
+        <div class="chooseBox" onclick="setWeapon('O')">O</div>
+    </div>
+    <div class="game hidden">
+        <div data-key="0" class="box">X</div>
+        <div data-key="1" class="box">O</div>
+        <div data-key="2" class="box">O</div>
+        <div data-key="3" class="box">X</div>
+        <div data-key="4" class="box">X</div>
+        <div data-key="5" class="box">X</div>
+        <div data-key="6" class="box">O</div>
+        <div data-key="7" class="box">X</div>
+        <div data-key="8" class="box">O</div>  
+    </div>
+    <script>
+        const boxes = document.querySelectorAll('.box'),
+            game = document.querySelector('.game'),
+            msg = document.querySelector('.msg'),
+            x = 'X',
+            o = 'O',
+            wins = [
+                [0,1,2],
+                [3,4,5],
+                [6,7,8],
+                [0,3,6],
+                [1,4,7],
+                [2,5,8],
+                [0,4,8],
+                [2,4,6]
+            ];
+
+        let   user = "",
+            pc = "",
+            a,
+            g = [null, null, null,
+                null, null, null,
+                null, null, null],
+            count = 0,
+            difficulty = 'medium';
+
+        function changeScreens(){
+            msg.classList.toggle('hidden');
+            game.classList.toggle('hidden');
+        }
+
+        function setWeapon(a){
+            user = a;
+            pc = user === "X" ? "O" : "X";
+            changeScreens();
+            resetBord();
+        }
+
+        function resetBord(){
+            boxes.forEach(el => el.innerHTML = "");
+            g = [null, null, null,
+                    null, null, null,
+                    null, null, null];
+            count = 0;
+            }
+
+            function random(){
+            let r = Math.floor(Math.random() * 9);
+            if(g[r] === null){
+                return r;
+            } else{
+                return random(); 
+            }
+        }
+
+        function restart(a){
+            if(a){
+                alert(a + ' wins :)');
+            }else{
+                alert('Tie!');
+            }
+            
+            resetBord();
+            
+            changeScreens();
+        }
+
+        function init(){
+            //if the box is already taken exit func
+            if (this.innerHTML !== "") return;
+            
+            //user move
+            this.innerHTML = user;
+            g[this.getAttribute('data-key')] = user;
+            //check if after move user wins
+            if(checkForWin(user)){return false;}
+            
+            //count moves and check if it's last it's Tie
+            count++;
+            if(count === 9) return setTimeout(restart, 500);
+            
+            //pc move
+            if(difficulty === 'easy'){
+                a = random();
+            }else if(difficulty === 'medium'){
+                a = mediumMove();
+            }
+            
+            boxes[a].innerHTML = pc; 
+            g[a] = pc;
+            //check if after move pc wins
+            if(checkForWin(pc)){return false;}
+            
+            //count moves and check if it's last it's Tie
+            count++;
+            if(count ===9) return setTimeout(restart, 500);
+        }
+
+        function checkForWin(a){
+            var flag = false;
+            
+            wins.forEach(w => {
+                if(g[w[0]] === g[w[1]] && g[w[0]] === g[w[2]] && g[w[0]] === a){
+                flag = true;
+                setTimeout(function(){
+                    restart(a);
+                },500);  
+                }
+            });
+            
+            if(flag){
+                return true;
+            }else{
+                return false;  
+            }
+        }
+
+        function mediumMove(){
+            var flag = false;
+            
+            wins.forEach(w => {
+                if(g[w[0]] !== null && g[w[0]] === g[w[1]] && g[w[2]] === null){
+                flag = w[2];   
+                }else if((g[w[2]] !== null && g[w[2]] === g[w[1]] && g[w[0]] === null)){
+                flag = w[0]; 
+                }else if((g[w[2]] !== null && g[w[2]] === g[w[0]] && g[w[1]] === null)){
+                flag = w[1]; 
+                }
+            });
+            
+            if(!flag){
+                return random();
+            }else{
+                return flag;
+            }
+        }
+
+        boxes.forEach(box => box.addEventListener('click', init));
+    </script>
+</body>
+</html>
