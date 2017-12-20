@@ -31,6 +31,9 @@ function draw(){
             text("GAME OVER", 80,100);
             text(`Your score is: ${score}`, 70,150);
             text(`The highscore is: ${highscore}`, 35,200);
+            textFont('Ariel',25);
+            fill('#75BE2F');
+            text("Please press R to start again.", 80,230);
             score = 0;
         }
 
@@ -52,8 +55,11 @@ function draw(){
 }
 
 function keyPressed(){
+    console.log(key);
     if(key === ' '){
         bird.up();
+    }
+    if(key === 'R'){
         pause && location.reload();
     }
 }
